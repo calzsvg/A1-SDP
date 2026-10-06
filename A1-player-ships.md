@@ -1,4 +1,4 @@
-# Player Ship Designs: Fast Attack and Big Bullet
+# Player Ship Designs: Fast Attack and Big Bullet, Fast Move, Two-Way Shot
 
 Team A1 · Player & Enemy Ship Variety · Related: DR-2 (player ship types), DR-5 (ship-specific sprites)
 
@@ -41,6 +41,38 @@ An arrowhead hull narrows to a three-pixel nose. Below it, a single-pixel spine 
 
 A heavy two-row base with a small fin at each end. Above it, a funnel widens upward into a seven-pixel mouth with two raised tips, like a wide muzzle for a large shot.
 
+
+## Fast Move
+
+```text
+·············
+·····███·····
+····█████····
+·█·███████·█·
+█████████████
+██·███████·██
+·██·█████·██·
+··█···█···█··
+```
+
+The fuselage starts with a three-pixel-wide nose and gradually widens downward until it meets the 13-pixel-wide wings. The wings on either side taper inward as they extend downward, while three one-pixel protrusions at the bottom—positioned on the left, center, and right—give the appearance of thrusters.
+
+## Two-Way Shot
+
+```text
+·███·····███·
+·███·····███·
+·████···████·
+·███████████·
+█████████████
+█████████████
+█████████████
+█████████████
+```
+
+The bottom four rows form a wide, solid fuselage that spans the entire width. At the upper left and right, three-pixel-wide gun barrels extend upward, with an empty space between them, fitting the concept of a craft capable of firing projectiles in both directions.
+
+
 ## Gameplay Stats
 
 Not finalised yet. The Standard column lists the current constants in `src/entity/Ship.java` for comparison.
@@ -67,6 +99,18 @@ Not finalised yet. The Standard column lists the current constants in `src/entit
 
 ```text
 00000000000001110000001101100011001100110011111100111111001111110011001101100011000000110000011100000000
+```
+
+**Fast Move**
+
+```text
+00001100000111100000101100011100001111100111111001111111011111100011111000011100000010110001111000001100
+```
+
+**Two-Way Shot**
+
+```text
+00001111111111111111111111111111001111110001111100011111000111110011111111111111111111111111111100001111
 ```
 
 ## Open Items
