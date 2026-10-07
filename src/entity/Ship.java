@@ -19,8 +19,34 @@ public class Ship extends Entity {
 	private static final int SHOOTING_INTERVAL = 750;
 	/** Speed of the bullets shot by the ship. */
 	private static final int BULLET_SPEED = -6;
-	/** Movement of the ship for each unit of time. */
-	private static final int SPEED = 2;
+	/** Types of player ships. Each type has its own speed and sprite. */
+	public enum ShipType {
+		/** Standard ship. */
+		STANDARD(2, SpriteType.Ship),
+		/** Ship with a high movement speed. */
+		FAST_MOVE(4, SpriteType.ShipFastMove);
+
+		/** Movement of the ship for each unit of time. */
+		private final int speed;
+		/** Sprite of the ship while it is not destroyed. */
+		private final SpriteType idleSprite;
+
+		/**
+		 * Constructor, establishes the properties of the ship type.
+		 * 
+		 * @param speed
+		 *            Movement of the ship for each unit of time.
+		 * @param idleSprite
+		 *            Sprite of the ship while it is not destroyed.
+		 */
+		ShipType(final int speed, final SpriteType idleSprite) {
+			this.speed = speed;
+			this.idleSprite = idleSprite;
+		}
+	}
+
+	/** Type of this ship. */
+	private final ShipType type;
 	
 	/** Minimum time between shots. */
 	private Cooldown shootingCooldown;
@@ -36,9 +62,24 @@ public class Ship extends Entity {
 	 *            Initial position of the ship in the Y axis.
 	 */
 	public Ship(final int positionX, final int positionY) {
+		this(positionX, positionY, ShipType.STANDARD);
+	}
+
+	/**
+	 * Constructor, establishes the ship's properties.
+	 * 
+	 * @param positionX
+	 *            Initial position of the ship in the X axis.
+	 * @param positionY
+	 *            Initial position of the ship in the Y axis.
+	 * @param type
+	 *            Type of the ship, which defines its speed and sprite.
+	 */
+	public Ship(final int positionX, final int positionY, final ShipType type) {
 		super(positionX, positionY, 13 * 2, 8 * 2, Color.GREEN);
 
-		this.spriteType = SpriteType.Ship;
+		this.type = type;
+		this.spriteType = type.idleSprite;
 		this.shootingCooldown = Core.getCooldown(SHOOTING_INTERVAL);
 		this.destructionCooldown = Core.getCooldown(1000);
 	}
@@ -48,7 +89,7 @@ public class Ship extends Entity {
 	 * reached.
 	 */
 	public final void moveRight() {
-		this.positionX += SPEED;
+		this.positionX += this.type.speed;
 	}
 
 	/**
@@ -56,7 +97,7 @@ public class Ship extends Entity {
 	 * reached.
 	 */
 	public final void moveLeft() {
-		this.positionX -= SPEED;
+		this.positionX -= this.type.speed;
 	}
 
 	/**
@@ -83,7 +124,7 @@ public class Ship extends Entity {
 		if (!this.destructionCooldown.checkFinished())
 			this.spriteType = SpriteType.ShipDestroyed;
 		else
-			this.spriteType = SpriteType.Ship;
+			this.spriteType = this.type.idleSprite;
 	}
 
 	/**
@@ -108,6 +149,15 @@ public class Ship extends Entity {
 	 * @return Speed of the ship.
 	 */
 	public final int getSpeed() {
-		return SPEED;
+		return this.type.speed; 
+	}
+	
+	/**
+	 * Getter for the ship's type.
+	 * 
+	 * @return Type of the ship.
+	 */
+	public final ShipType getType() {
+		return this.type;
 	}
 }
