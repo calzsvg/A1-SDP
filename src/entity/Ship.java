@@ -19,12 +19,16 @@ public class Ship extends Entity {
 	private static final int SHOOTING_INTERVAL = 750;
 	/** Speed of the bullets shot by the ship. */
 	private static final int BULLET_SPEED = -6;
+	/** Distance in px from the ship's center to each barrel of a two-way ship. */
+	private static final int BARREL_OFFSET = 8;
 	/** Types of player ships. Each type has its own speed and sprite. */
 	public enum ShipType {
 		/** Standard ship. */
 		STANDARD(2, SpriteType.Ship),
 		/** Ship with a high movement speed. */
-		FAST_MOVE(4, SpriteType.ShipFastMove);
+		FAST_MOVE(4, SpriteType.ShipFastMove),
+		/** Ship that shoots a bullet from each of its two barrels. */
+		TWO_WAY(2, SpriteType.ShipTwoWay);
 
 		/** Movement of the ship for each unit of time. */
 		private final int speed;
@@ -101,7 +105,8 @@ public class Ship extends Entity {
 	}
 
 	/**
-	 * Shoots a bullet upwards.
+	 * Shoots a bullet upwards. A two-way ship shoots one bullet from each of
+	 * its two barrels instead.
 	 * 
 	 * @param bullets
 	 *            List of bullets on screen, to add the new bullet.
@@ -110,8 +115,16 @@ public class Ship extends Entity {
 	public final boolean shoot(final Set<Bullet> bullets) {
 		if (this.shootingCooldown.checkFinished()) {
 			this.shootingCooldown.reset();
-			bullets.add(BulletPool.getBullet(positionX + this.width / 2,
-					positionY, BULLET_SPEED));
+			final int centerX = positionX + this.width / 2;
+			if (this.type == ShipType.TWO_WAY) {
+				bullets.add(BulletPool.getBullet(centerX - BARREL_OFFSET,
+						positionY, BULLET_SPEED));
+				bullets.add(BulletPool.getBullet(centerX + BARREL_OFFSET,
+						positionY, BULLET_SPEED));
+			} else {
+				bullets.add(BulletPool.getBullet(centerX, positionY,
+						BULLET_SPEED));
+			}
 			return true;
 		}
 		return false;

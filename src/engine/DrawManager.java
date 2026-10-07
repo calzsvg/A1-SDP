@@ -79,7 +79,9 @@ public final class DrawManager {
 		/** Destroyed enemy ship. */
 		Explosion,
 		/** Player ship with a high movement speed (Fast Move). */
-		ShipFastMove
+		ShipFastMove,
+		/** Player ship that shoots from two barrels (Two-Way Shot). */
+		ShipTwoWay
 	};
 
 	/**
@@ -106,6 +108,7 @@ public final class DrawManager {
 			spriteMap.put(SpriteType.EnemyShipSpecial, new boolean[16][7]);
 			spriteMap.put(SpriteType.Explosion, new boolean[13][7]);
 			spriteMap.put(SpriteType.ShipFastMove, new boolean[13][8]);
+			spriteMap.put(SpriteType.ShipTwoWay, new boolean[13][8]);
 
 			fileManager.loadSprite(spriteMap);
 			logger.info("Finished loading the sprites.");
