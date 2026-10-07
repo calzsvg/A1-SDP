@@ -15,40 +15,48 @@ import engine.DrawManager.SpriteType;
  */
 public class Ship extends Entity {
 
-	/** Time between shots. */
-	private static final int SHOOTING_INTERVAL = 750;
-	/** Speed of the bullets shot by the ship. */
+		/** Speed of the bullets shot by the ship. */
 	private static final int BULLET_SPEED = -6;
 	/** Distance in px from the ship's center to each barrel of a two-way ship. */
 	private static final int BARREL_OFFSET = 8;
-	/** Types of player ships. Each type has its own speed and sprite. */
+
+	/**
+	 * Types of player ships. Each type has its own speed, shooting interval
+	 * and sprite.
+	 */
 	public enum ShipType {
 		/** Standard ship. */
-		STANDARD(2, SpriteType.Ship),
+		STANDARD(2, 750, SpriteType.Ship),
 		/** Ship with a high movement speed. */
-		FAST_MOVE(4, SpriteType.ShipFastMove),
+		FAST_MOVE(4, 750, SpriteType.ShipFastMove),
 		/** Ship that shoots a bullet from each of its two barrels. */
-		TWO_WAY(2, SpriteType.ShipTwoWay);
+		TWO_WAY(1, 1000, SpriteType.ShipTwoWay);
 
 		/** Movement of the ship for each unit of time. */
 		private final int speed;
+		/** Time between shots, in milliseconds. */
+		private final int shootingInterval;
 		/** Sprite of the ship while it is not destroyed. */
 		private final SpriteType idleSprite;
 
 		/**
 		 * Constructor, establishes the properties of the ship type.
-		 * 
+		 *
 		 * @param speed
 		 *            Movement of the ship for each unit of time.
+		 * @param shootingInterval
+		 *            Time between shots, in milliseconds.
 		 * @param idleSprite
 		 *            Sprite of the ship while it is not destroyed.
 		 */
-		ShipType(final int speed, final SpriteType idleSprite) {
+		ShipType(final int speed, final int shootingInterval,
+				final SpriteType idleSprite) {
 			this.speed = speed;
+			this.shootingInterval = shootingInterval;
 			this.idleSprite = idleSprite;
 		}
 	}
-
+	
 	/** Type of this ship. */
 	private final ShipType type;
 	
@@ -84,7 +92,7 @@ public class Ship extends Entity {
 
 		this.type = type;
 		this.spriteType = type.idleSprite;
-		this.shootingCooldown = Core.getCooldown(SHOOTING_INTERVAL);
+		this.shootingCooldown = Core.getCooldown(type.shootingInterval);
 		this.destructionCooldown = Core.getCooldown(1000);
 	}
 
