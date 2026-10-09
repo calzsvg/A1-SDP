@@ -15,7 +15,7 @@ import engine.DrawManager.SpriteType;
  */
 public class Ship extends Entity {
 
-		/** Speed of the bullets shot by the ship. */
+	/** Speed of the bullets shot by the ship. */
 	private static final int BULLET_SPEED = -6;
 	/** Distance in px from the ship's center to each barrel of a two-way ship. */
 	private static final int BARREL_OFFSET = 8;
@@ -60,10 +60,28 @@ public class Ship extends Entity {
 	/** Type of this ship. */
 	private final ShipType type;
 	
+	/**
+	 * AUTHORED BY: VFX TEAM (effection)
+	 *
+	 * Blink settings for low health.
+	 */
+	private static final int BLINK_INTERVAL = 200;
+	private static final Color BASE_COLOR = Color.GREEN;
+	private static final Color BLINK_COLOR = new Color(255, 60, 60);
+
 	/** Minimum time between shots. */
 	private Cooldown shootingCooldown;
 	/** Time spent inactive between hits. */
 	private Cooldown destructionCooldown;
+
+	/**
+	 * AUTHORED BY: VFX TEAM (effection)
+	 *
+	 * Blink state for low health.
+	 */
+	private Cooldown blinkCooldown;
+	private boolean blinking;
+	private boolean blinkOn;
 
 	/**
 	 * Constructor, establishes the ship's properties.
@@ -94,6 +112,11 @@ public class Ship extends Entity {
 		this.spriteType = type.idleSprite;
 		this.shootingCooldown = Core.getCooldown(type.shootingInterval);
 		this.destructionCooldown = Core.getCooldown(1000);
+
+		/**
+		 * AUTHORED BY: VFX TEAM (effection)
+		 */
+		this.blinkCooldown = Core.getCooldown(BLINK_INTERVAL);
 	}
 
 	/**
@@ -146,6 +169,34 @@ public class Ship extends Entity {
 			this.spriteType = SpriteType.ShipDestroyed;
 		else
 			this.spriteType = this.type.idleSprite;
+
+		/**
+		 * AUTHORED BY: VFX TEAM (effection)
+		 *
+		 * Toggle color each BLINK_INTERVAL ms.
+		 */
+		if (this.blinking && this.blinkCooldown.checkFinished()) {
+			this.blinkOn = !this.blinkOn;
+			setColor(this.blinkOn ? BLINK_COLOR : BASE_COLOR);
+			this.blinkCooldown.reset();
+		}
+	}
+
+	/**
+	 * AUTHORED BY: VFX TEAM (effection)
+	 *
+	 * Turns low-health blinking on or off.
+	 *
+	 * @param blinking
+	 *            True to start blinking.
+	 */
+	public final void setBlinking(final boolean blinking) {
+		if (this.blinking == blinking)
+			return;
+		this.blinking = blinking;
+		this.blinkOn = false;
+		setColor(BASE_COLOR);
+		this.blinkCooldown.reset();
 	}
 
 	/**
