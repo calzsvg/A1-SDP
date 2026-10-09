@@ -20,9 +20,9 @@ import entity.Ship;
 
 /**
  * Manages screen drawing.
- * 
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public final class DrawManager {
 
@@ -81,7 +81,9 @@ public final class DrawManager {
 		/** Player ship with a high movement speed (Fast Move). */
 		ShipFastMove,
 		/** Player ship that shoots from two barrels (Two-Way Shot). */
-		ShipTwoWay
+		ShipTwoWay,
+		/** First Flight achievement icon. */
+		FirstFlight
 	};
 
 	/**
@@ -109,6 +111,7 @@ public final class DrawManager {
 			spriteMap.put(SpriteType.Explosion, new boolean[13][7]);
 			spriteMap.put(SpriteType.ShipFastMove, new boolean[13][8]);
 			spriteMap.put(SpriteType.ShipTwoWay, new boolean[13][8]);
+			spriteMap.put(SpriteType.FirstFlight, new boolean[11][8]);
 
 			fileManager.loadSprite(spriteMap);
 			logger.info("Finished loading the sprites.");
@@ -131,7 +134,7 @@ public final class DrawManager {
 
 	/**
 	 * Returns shared instance of DrawManager.
-	 * 
+	 *
 	 * @return Shared instance of DrawManager.
 	 */
 	protected static DrawManager getInstance() {
@@ -142,7 +145,7 @@ public final class DrawManager {
 
 	/**
 	 * Sets the frame to draw the image on.
-	 * 
+	 *
 	 * @param currentFrame
 	 *            Frame to draw on.
 	 */
@@ -153,7 +156,7 @@ public final class DrawManager {
 	/**
 	 * First part of the drawing process. Initialices buffers, draws the
 	 * background and prepares the images.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw in.
 	 */
@@ -177,7 +180,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws the completed drawing on screen.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 */
@@ -188,7 +191,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws an entity, using the apropiate image.
-	 * 
+	 *
 	 * @param entity
 	 *            Entity to be drawn.
 	 * @param positionX
@@ -198,14 +201,58 @@ public final class DrawManager {
 	 */
 	public void drawEntity(final Entity entity, final int positionX,
 			final int positionY) {
-		boolean[][] image = spriteMap.get(entity.getSpriteType());
+		drawSprite(entity.getSpriteType(), positionX, positionY,
+				entity.getColor());
+	}
 
-		backBufferGraphics.setColor(entity.getColor());
+	/**
+	 * Draws a sprite using the game's standard two-pixel scale.
+	 *
+	 * @param spriteType Sprite to draw.
+	 * @param positionX Coordinates for the left side of the image.
+	 * @param positionY Coordinates for the upper side of the image.
+	 * @param color Color used for filled pixels.
+	 */
+	public void drawSprite(final SpriteType spriteType, final int positionX,
+			final int positionY, final Color color) {
+		boolean[][] image = spriteMap.get(spriteType);
+
+		backBufferGraphics.setColor(color);
 		for (int i = 0; i < image.length; i++)
 			for (int j = 0; j < image[i].length; j++)
 				if (image[i][j])
 					backBufferGraphics.drawRect(positionX + i * 2, positionY
 							+ j * 2, 1, 1);
+	}
+
+	/**
+	 * Draws regular text at an exact position, left aligned.
+	 *
+	 * @param string    Text to draw.
+	 * @param positionX Horizontal position of the left edge.
+	 * @param positionY Vertical position of the baseline.
+	 * @param color     Colour of the text.
+	 */
+	public void drawRegularString(final String string, final int positionX,
+			final int positionY, final Color color) {
+		backBufferGraphics.setFont(fontRegular);
+		backBufferGraphics.setColor(color);
+		backBufferGraphics.drawString(string, positionX, positionY);
+	}
+
+	/**
+	 * Draws an empty rectangle outline.
+	 *
+	 * @param positionX Horizontal position of the left edge.
+	 * @param positionY Vertical position of the top edge.
+	 * @param width     Width of the box.
+	 * @param height    Height of the box.
+	 * @param color     Colour of the outline.
+	 */
+	public void drawBox(final int positionX, final int positionY,
+			final int width, final int height, final Color color) {
+		backBufferGraphics.setColor(color);
+		backBufferGraphics.drawRect(positionX, positionY, width, height);
 	}
 
 	/**
@@ -309,7 +356,7 @@ public final class DrawManager {
 
 	/**
 	 * For debugging purpouses, draws the canvas borders.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw in.
 	 */
@@ -326,7 +373,7 @@ public final class DrawManager {
 
 	/**
 	 * For debugging purpouses, draws a grid over the canvas.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw in.
 	 */
@@ -341,7 +388,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws current score on screen.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 * @param score
@@ -356,7 +403,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws number of remaining lives on screen.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 * @param lives
@@ -373,7 +420,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws a thick line from side to side of the screen.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 * @param positionY
@@ -388,7 +435,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws game title.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 */
@@ -401,7 +448,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws main menu.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 * @param selected
@@ -424,7 +471,7 @@ public final class DrawManager {
 	 * Finds the menu item drawn at a given height. Each item owns a full-width
 	 * row as tall as the spacing between items, so the whole row is clickable,
 	 * not just the text.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen the menu is drawn on.
 	 * @param positionY
@@ -449,7 +496,7 @@ public final class DrawManager {
 	/**
 	 * Height of the baseline of a menu item. Drawing and hit-testing both use
 	 * this, so they cannot drift apart.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen the menu is drawn on.
 	 * @param index
@@ -462,7 +509,7 @@ public final class DrawManager {
 
 	/**
 	 * Distance between two menu items.
-	 * 
+	 *
 	 * @return Spacing, in pixels.
 	 */
 	private int menuItemSpacing() {
@@ -533,31 +580,76 @@ public final class DrawManager {
 	 *
 	 * @param screen Screen where the popup is drawn.
 	 * @param achievement Newly unlocked achievement.
+	 * @param elapsedMilliseconds Time since the popup started.
+	 * @param durationMilliseconds Total popup duration.
+	 * @param slideInMilliseconds Slide-in duration.
+	 * @param slideOutMilliseconds Slide-out duration.
 	 */
 	public void drawAchievementUnlocked(final Screen screen,
-			final Achievement achievement) {
-		int boxWidth = screen.getWidth() / 2;
-		int boxHeight = fontRegularMetrics.getHeight() * 3;
-		int boxX = (screen.getWidth() - boxWidth) / 2;
-		int boxY = screen.getHeight() - boxHeight
-				- fontRegularMetrics.getHeight();
+			final Achievement achievement, final long elapsedMilliseconds,
+			final int durationMilliseconds, final int slideInMilliseconds,
+			final int slideOutMilliseconds) {
+		int boxWidth = 218;
+		int boxHeight = 44;
+		int visibleX = screen.getWidth() - boxWidth - 6;
+		int hiddenX = screen.getWidth() + 2;
+		int boxY = 46;
+		int boxX = visibleX;
+
+		if (elapsedMilliseconds < slideInMilliseconds)
+			boxX = hiddenX - (hiddenX - visibleX) * (int) elapsedMilliseconds
+					/ slideInMilliseconds;
+		else if (elapsedMilliseconds > durationMilliseconds
+				- slideOutMilliseconds)
+			boxX = visibleX + (hiddenX - visibleX) * (int) (elapsedMilliseconds
+					- (durationMilliseconds - slideOutMilliseconds))
+					/ slideOutMilliseconds;
 
 		backBufferGraphics.setColor(Color.BLACK);
 		backBufferGraphics.fillRect(boxX, boxY, boxWidth, boxHeight);
 		backBufferGraphics.setColor(Color.GREEN);
 		backBufferGraphics.drawRect(boxX, boxY, boxWidth, boxHeight);
-		drawCenteredRegularString(screen, "Achievement unlocked!", boxY
-				+ fontRegularMetrics.getHeight() * 3 / 2);
+		backBufferGraphics.setColor(Color.GREEN);
+		backBufferGraphics.drawString("ACHIEVEMENT UNLOCKED", boxX + 34,
+				boxY + 16);
+		drawSprite(achievement.getSpriteType(), boxX + 8, boxY + 23,
+				Color.YELLOW);
 		backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, achievement.getName(), boxY
-				+ fontRegularMetrics.getHeight() * 5 / 2);
+		backBufferGraphics.drawString(achievement.getName(), boxX + 34,
+				boxY + 35);
+	}
+
+	/**
+	 * Draws an achievement icon alongside its name, status, and description.
+	 *
+	 * @param screen Screen where the achievement is drawn.
+	 * @param achievement Achievement to display.
+	 */
+	public void drawAchievement(final Screen screen,
+			final Achievement achievement) {
+		int iconX = screen.getWidth() / 5;
+		int contentX = iconX + 40;
+		int nameY = screen.getHeight() / 2;
+		String status = achievement.isUnlocked() ? "UNLOCKED" : "LOCKED";
+
+		drawSprite(achievement.getSpriteType(), iconX, nameY - 20,
+				achievement.isUnlocked() ? Color.YELLOW : Color.DARK_GRAY);
+		backBufferGraphics.setFont(fontRegular);
+		backBufferGraphics.setColor(achievement.isUnlocked() ? Color.WHITE
+				: Color.GRAY);
+		backBufferGraphics.drawString(achievement.getName() + " - " + status,
+				contentX, nameY);
+		backBufferGraphics.setColor(Color.GRAY);
+		backBufferGraphics.drawString("Unlock: defeat "
+				+ achievement.getRequiredEnemyKills() + " enemies.", contentX,
+				nameY + fontRegularMetrics.getHeight() * 2);
 	}
 
 	/**
 	 * Draws the title of a screen reached from the main menu, in the same
 	 * colour and place as the high score screen's title. Sets its own colour,
 	 * so it does not depend on what was drawn before it.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 * @param title
@@ -570,7 +662,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws game results.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 * @param score
@@ -610,7 +702,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws interactive characters for name input.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 * @param name
@@ -659,7 +751,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws basic content of game over screen.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 * @param acceptsInput
@@ -689,7 +781,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws high score screen title and instructions.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 */
@@ -707,7 +799,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws high scores.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 * @param highScores
@@ -730,7 +822,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws a centered string on regular font.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 * @param string
@@ -747,7 +839,7 @@ public final class DrawManager {
 
 	/**
 	 * Draws a centered string on big font.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 * @param string
@@ -763,8 +855,85 @@ public final class DrawManager {
 	}
 
 	/**
+	 * AUTHORED BY: VFX TEAM (Effection)
+	 * Any further inquiries please contact us.
+	 * Draws an entity shrunk around its center and faded, used when enemies
+	 * disappear on game over.
+	 *
+	 * @param entity
+	 *            Entity to be drawn.
+	 * @param scale
+	 *            Size of the entity, from 0 (gone) to 1 (normal size).
+	 */
+	public void drawEntityShrunk(final Entity entity, final double scale) {
+		if (scale <= 0)
+			return;
+		boolean[][] image = spriteMap.get(entity.getSpriteType());
+		Color color = entity.getColor();
+		int alpha = (int) (255 * Math.min(1, scale));
+
+		double centerX = entity.getPositionX() + entity.getWidth() / 2.0;
+		double centerY = entity.getPositionY() + entity.getHeight() / 2.0;
+		int pixelSize = Math.max(1, (int) Math.round(2 * scale));
+
+		backBufferGraphics.setColor(new Color(color.getRed(),
+				color.getGreen(), color.getBlue(), alpha));
+		for (int i = 0; i < image.length; i++)
+			for (int j = 0; j < image[i].length; j++)
+				if (image[i][j])
+					backBufferGraphics.fillRect(
+							(int) (centerX + (i * 2 - entity.getWidth()
+									/ 2.0) * scale),
+							(int) (centerY + (j * 2 - entity.getHeight()
+									/ 2.0) * scale),
+							pixelSize, pixelSize);
+	}
+
+	/**
+	 * AUTHORED BY: VFX TEAM (Effection)
+	 * Any further inquiries please contact us.
+	 * Draws the game over banner shown on the game screen, typed out up to
+	 * the given number of characters. The text stays centered as a whole so
+	 * letters do not shift while typing.
+	 *
+	 *
+	 * @param screen
+	 *            Screen to draw on.
+	 * @param text
+	 *            Full banner text.
+	 * @param visibleChars
+	 *            Number of characters typed so far.
+	 */
+	public void drawGameOverBanner(final Screen screen, final String text,
+			final int visibleChars) {
+		backBufferGraphics.setColor(Color.GREEN);
+		backBufferGraphics.setFont(fontBig);
+		backBufferGraphics.drawString(
+				text.substring(0, Math.min(visibleChars, text.length())),
+				screen.getWidth() / 2 - fontBigMetrics.stringWidth(text) / 2,
+				screen.getHeight() / 2);
+	}
+
+	/**
+	 * Covers the screen with a translucent black layer, used to fade out.
+	 * AUTHORED BY: VFX TEAM (Effection)
+	 * Any further inquiries please contact us.
+	 *
+	 * @param screen
+	 *            Screen to draw on.
+	 * @param alpha
+	 *            Opacity of the layer, from 0 (clear) to 255 (black).
+	 */
+	public void drawFadeOverlay(final Screen screen, final int alpha) {
+		backBufferGraphics.setColor(new Color(0, 0, 0,
+				Math.max(0, Math.min(255, alpha))));
+		backBufferGraphics.fillRect(0, 0, screen.getWidth(),
+				screen.getHeight());
+	}
+
+	/**
 	 * Countdown to game start.
-	 * 
+	 *
 	 * @param screen
 	 *            Screen to draw on.
 	 * @param level
@@ -844,5 +1013,33 @@ public final class DrawManager {
 		else
 			backBufferGraphics.setColor(Color.WHITE);
 		drawCenteredRegularString(screen, string, height);
+	}
+	/**
+	 * Draws the damage dim overlay when the player is hit.
+	 *AUTHORED BY: VFX TEAM (Effection)
+	 *Any further inquiries please contact us.
+	 * @param screen
+	 *            Screen to draw on.
+	 * @param effect
+	 *            Dim effect to draw.
+	 */
+	public void drawDamageDim(final Screen screen,
+			final DamageDimEffect effect) {
+		if (effect != null)
+			effect.draw(backBufferGraphics, screen.getWidth(),
+					screen.getHeight());
+	}                                          // <- ADD
+
+	/**                                        // <- ADD
+	 * Draws the low-health glitch effect.
+	 * AUTHORED BY: VFX TEAM (Effection)
+	 *Any further inquiries please contact us.
+	 *
+	 * @param screen Screen to draw on.
+	 * @param effect Glitch effect to draw.
+	 */
+	public void drawGlitch(final Screen screen, final GlitchEffect effect) {
+		if (effect != null)
+			effect.draw(backBuffer, backBufferGraphics);
 	}
 }
