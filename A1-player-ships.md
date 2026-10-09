@@ -2,7 +2,7 @@
 
 Team A1 · Player & Enemy Ship Variety · Related: DR-2 (player ship types), DR-5 (ship-specific sprites)
 
-This document introduces two new player ship sprites for the selectable ship roster. Both are drawn on a 13x8 grid, the same size as the current `Ship` sprite (26x16 px in game), so they keep the existing ship size and hitbox.
+This document introduces four new player ship sprites for the selectable ship roster. Both are drawn on a 13x8 grid, the same size as the current `Ship` sprite (26x16 px in game), so they keep the existing ship size and hitbox.
 
 | Ship | Concept | Grid |
 |---|---|---|
@@ -75,15 +75,19 @@ The bottom four rows form a wide, solid fuselage that spans the entire width. At
 
 ## Gameplay Stats
 
-Not finalised yet. The Standard column lists the current constants in `src/entity/Ship.java` for comparison.
+Fast Move and Two-Way Shot are implemented as `ShipType` values in `src/entity/Ship.java`. Fast Attack and Big Bullet are not finalised yet. The Standard column shows the current ship for comparison.
 
-| Stat | Standard (current) | Fast Attack | Big Bullet |
-|---|---|---|---|
-| Movement speed (`SPEED`, px per frame) | 2 | TBD | TBD |
-| Shooting interval (`SHOOTING_INTERVAL`, ms) | 750 | TBD | TBD |
-| Bullet speed (`BULLET_SPEED`, px per frame, negative = up) | -6 | TBD | TBD |
-| Bullets per shot | 1 | TBD | TBD |
-| Max health (hits) | 1 | TBD | TBD |
+| Stat | Standard (current) | Fast Attack | Big Bullet | Fast Move | Two-Way Shot |
+|---|---|---|---|---|---|
+| Movement speed (`speed`, px per frame) | 2 | TBD | TBD | 4 | 1 |
+| Shooting interval (`shootingInterval`, ms) | 750 | TBD | TBD | 750 | 1000 |
+| Bullet speed (`BULLET_SPEED`, px per frame, negative = up) | -6 | TBD | TBD | -6 | -6 |
+| Bullets per shot | 1 | TBD | TBD | 1 | 2 |
+| Max health (hits) | 1 | TBD | TBD | 1 | 1 |
+| Movement (px per second at 60 FPS) | 120 | TBD | TBD | 240 | 60 |
+| Bullets per second | 1.33 | TBD | TBD | 1.33 | 2.00 |
+
+The last two rows are derived from the rows above (px per frame x 60 FPS, and bullets per shot / shooting interval) to make the ships easier to compare. Two-Way Shot fires 1.5 times as many bullets per second as Standard, so it moves at half the Standard speed and shoots every 1000 ms to offset this.
 
 ## Sprite Data for `res/graphics`
 
