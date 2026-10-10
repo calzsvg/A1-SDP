@@ -77,15 +77,16 @@ The bottom four rows form a wide, solid fuselage that spans the entire width. At
 
 Fast Move and Two-Way Shot are implemented as `ShipType` values in `src/entity/Ship.java`. Fast Attack and Big Bullet are not finalised yet. The Standard column shows the current ship for comparison.
 
-| Stat | Standard (current) | Fast Attack | Big Bullet | Fast Move | Two-Way Shot |
+| Stat | Standard (current) | Fast Attack (planned) | Big Bullet (planned) | Fast Move | Two-Way Shot |
 |---|---|---|---|---|---|
-| Movement speed (`speed`, px per frame) | 2 | TBD | TBD | 4 | 1 |
-| Shooting interval (`shootingInterval`, ms) | 750 | TBD | TBD | 750 | 1000 |
-| Bullet speed (`BULLET_SPEED`, px per frame, negative = up) | -6 | TBD | TBD | -6 | -6 |
-| Bullets per shot | 1 | TBD | TBD | 1 | 2 |
-| Max health (hits) | 1 | TBD | TBD | 1 | 1 |
-| Movement (px per second at 60 FPS) | 120 | TBD | TBD | 240 | 60 |
-| Bullets per second | 1.33 | TBD | TBD | 1.33 | 2.00 |
+| Movement speed (`speed`, px per frame) | 2 | 2 | 2 | 4 | 1 |
+| Shooting interval (`shootingInterval`, ms) | 750 | 375 | 1000 | 750 | 1000 |
+| Bullet speed (`BULLET_SPEED`, px per frame, negative = up) | -6 | -6 | -6 | -6 | -6 |
+| Bullets per shot | 1 | 1 | 1 | 1 | 2 |
+| Bullet size (sprite pixels, px in game) | 3x5 (6x10 px) | 3x5 (6x10 px) | 7x7 (14x14 px) | 3x5 (6x10 px) | 3x5 (6x10 px) |
+| Max health (hits) | 1 | 1 | 1 | 1 | 1 |
+| Movement (px per second at 60 FPS) | 120 | 120 | 120 | 240 | 60 |
+| Bullets per second | 1.33 | 2.67 | 1.00 | 1.33 | 2.00 |
 
 The last two rows are derived from the rows above (px per frame x 60 FPS, and bullets per shot / shooting interval) to make the ships easier to compare. Two-Way Shot fires 1.5 times as many bullets per second as Standard, so it moves at half the Standard speed and shoots every 1000 ms to offset this.
 
