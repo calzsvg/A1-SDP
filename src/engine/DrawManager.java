@@ -100,12 +100,10 @@ public final class DrawManager {
 		ShipTwoWay,
 		/** First Flight achievement icon. */
 		FirstFlight,
-<<<<<<< HEAD
         /** Fast Attack player ship. */
         ShipFastAttack,
         /** Big Bullet player ship. */
-        ShipBigBullet
-=======
+        ShipBigBullet,
 		/** Fleet Master achievement icon. */
 		FleetMaster,
 		/** Weakestship sprite. */
@@ -114,7 +112,6 @@ public final class DrawManager {
 		InfinityVoid,
         /** First Boss Kill achievement icon. */
         BossKill
->>>>>>> upstream/main
 	};
 
 	/**
@@ -143,15 +140,12 @@ public final class DrawManager {
 			spriteMap.put(SpriteType.ShipFastMove, new boolean[13][8]);
 			spriteMap.put(SpriteType.ShipTwoWay, new boolean[13][8]);
 			spriteMap.put(SpriteType.FirstFlight, new boolean[11][8]);
-<<<<<<< HEAD
             spriteMap.put(SpriteType.ShipFastAttack, new boolean[13][8]);
             spriteMap.put(SpriteType.ShipBigBullet, new boolean[13][8]);
-=======
 			spriteMap.put(SpriteType.FleetMaster, new boolean[23][23]);
 			spriteMap.put(SpriteType.Weakestship, new boolean[11][11]);
 			spriteMap.put(SpriteType.InfinityVoid, new boolean[11][11]);
             spriteMap.put(SpriteType.BossKill, new boolean[11][11]);
->>>>>>> upstream/main
 
 			fileManager.loadSprite(spriteMap);
 			logger.info("Finished loading the sprites.");
