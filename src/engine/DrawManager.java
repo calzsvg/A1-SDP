@@ -83,7 +83,11 @@ public final class DrawManager {
 		/** Player ship that shoots from two barrels (Two-Way Shot). */
 		ShipTwoWay,
 		/** First Flight achievement icon. */
-		FirstFlight
+		FirstFlight,
+        /** Fast Attack player ship. */
+        ShipFastAttack,
+        /** Big Bullet player ship. */
+        ShipBigBullet
 	};
 
 	/**
@@ -112,6 +116,8 @@ public final class DrawManager {
 			spriteMap.put(SpriteType.ShipFastMove, new boolean[13][8]);
 			spriteMap.put(SpriteType.ShipTwoWay, new boolean[13][8]);
 			spriteMap.put(SpriteType.FirstFlight, new boolean[11][8]);
+            spriteMap.put(SpriteType.ShipFastAttack, new boolean[13][8]);
+            spriteMap.put(SpriteType.ShipBigBullet, new boolean[13][8]);
 
 			fileManager.loadSprite(spriteMap);
 			logger.info("Finished loading the sprites.");

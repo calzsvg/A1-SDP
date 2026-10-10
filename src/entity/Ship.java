@@ -24,38 +24,46 @@ public class Ship extends Entity {
 	 * Types of player ships. Each type has its own speed, shooting interval
 	 * and sprite.
 	 */
-	public enum ShipType {
-		/** Standard ship. */
-		STANDARD(2, 750, SpriteType.Ship),
-		/** Ship with a high movement speed. */
-		FAST_MOVE(4, 750, SpriteType.ShipFastMove),
-		/** Ship that shoots a bullet from each of its two barrels. */
-		TWO_WAY(1, 1000, SpriteType.ShipTwoWay);
+    /**
+     * Types of player ships. Each type has its own speed, shooting interval
+     * and sprite.
+     */
+    public enum ShipType {
+        /** Standard ship. */
+        STANDARD(2, 750, SpriteType.Ship),
+        /** Ship with a high movement speed. */
+        FAST_MOVE(4, 750, SpriteType.ShipFastMove),
+        /** Ship that shoots a bullet from each of its two barrels. */
+        TWO_WAY(1, 1000, SpriteType.ShipTwoWay),
+        /** Ship with a high rate of fire. */
+        FAST_ATTACK(2, 375, SpriteType.ShipFastAttack),
+        /** Ship with a large projectile. */
+        BIG_BULLET(2, 1000, SpriteType.ShipBigBullet);
 
-		/** Movement of the ship for each unit of time. */
-		private final int speed;
-		/** Time between shots, in milliseconds. */
-		private final int shootingInterval;
-		/** Sprite of the ship while it is not destroyed. */
-		private final SpriteType idleSprite;
+        /** Movement of the ship for each unit of time. */
+        private final int speed;
+        /** Time between shots, in milliseconds. */
+        private final int shootingInterval;
+        /** Sprite of the ship while it is not destroyed. */
+        private final SpriteType idleSprite;
 
-		/**
-		 * Constructor, establishes the properties of the ship type.
-		 *
-		 * @param speed
-		 *            Movement of the ship for each unit of time.
-		 * @param shootingInterval
-		 *            Time between shots, in milliseconds.
-		 * @param idleSprite
-		 *            Sprite of the ship while it is not destroyed.
-		 */
-		ShipType(final int speed, final int shootingInterval,
-				final SpriteType idleSprite) {
-			this.speed = speed;
-			this.shootingInterval = shootingInterval;
-			this.idleSprite = idleSprite;
-		}
-	}
+        /**
+         * Constructor, establishes the properties of the ship type.
+         *
+         * @param speed
+         *            Movement of the ship for each unit of time.
+         * @param shootingInterval
+         *            Time between shots, in milliseconds.
+         * @param idleSprite
+         *            Sprite of the ship while it is not destroyed.
+         */
+        ShipType(final int speed, final int shootingInterval,
+                 final SpriteType idleSprite) {
+            this.speed = speed;
+            this.shootingInterval = shootingInterval;
+            this.idleSprite = idleSprite;
+        }
+    }
 	
 	/** Type of this ship. */
 	private final ShipType type;
