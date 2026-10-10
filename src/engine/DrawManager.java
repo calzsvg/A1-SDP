@@ -100,10 +100,21 @@ public final class DrawManager {
 		ShipTwoWay,
 		/** First Flight achievement icon. */
 		FirstFlight,
+<<<<<<< HEAD
         /** Fast Attack player ship. */
         ShipFastAttack,
         /** Big Bullet player ship. */
         ShipBigBullet
+=======
+		/** Fleet Master achievement icon. */
+		FleetMaster,
+		/** Weakestship sprite. */
+		Weakestship,
+		/** Infinity Void achievement icon. */
+		InfinityVoid,
+        /** First Boss Kill achievement icon. */
+        BossKill
+>>>>>>> upstream/main
 	};
 
 	/**
@@ -132,8 +143,15 @@ public final class DrawManager {
 			spriteMap.put(SpriteType.ShipFastMove, new boolean[13][8]);
 			spriteMap.put(SpriteType.ShipTwoWay, new boolean[13][8]);
 			spriteMap.put(SpriteType.FirstFlight, new boolean[11][8]);
+<<<<<<< HEAD
             spriteMap.put(SpriteType.ShipFastAttack, new boolean[13][8]);
             spriteMap.put(SpriteType.ShipBigBullet, new boolean[13][8]);
+=======
+			spriteMap.put(SpriteType.FleetMaster, new boolean[23][23]);
+			spriteMap.put(SpriteType.Weakestship, new boolean[11][11]);
+			spriteMap.put(SpriteType.InfinityVoid, new boolean[11][11]);
+            spriteMap.put(SpriteType.BossKill, new boolean[11][11]);
+>>>>>>> upstream/main
 
 			fileManager.loadSprite(spriteMap);
 			logger.info("Finished loading the sprites.");
@@ -184,6 +202,16 @@ public final class DrawManager {
 	 *            Screen to draw in.
 	 */
 	public void initDrawing(final Screen screen) {
+
+		if (fontRegular == null) {
+			fontRegular = new Font(Font.MONOSPACED, Font.PLAIN, 14);
+		}
+		if (fontBig == null) {
+			fontBig = new Font(Font.MONOSPACED, Font.PLAIN, 24);
+		}
+		if (fontSelected == null) {
+			fontSelected = fontRegular;
+		}
 		backBuffer = new BufferedImage(screen.getWidth(), screen.getHeight(),
 				BufferedImage.TYPE_INT_RGB);
 
@@ -238,17 +266,19 @@ public final class DrawManager {
 	 * @param color Color used for filled pixels.
 	 */
 	public void drawSprite(final SpriteType spriteType, final int positionX,
-			final int positionY, final Color color) {
+						   final int positionY, final Color color) {
 		boolean[][] image = spriteMap.get(spriteType);
 
 		backBufferGraphics.setColor(color);
+
 		for (int i = 0; i < image.length; i++)
 			for (int j = 0; j < image[i].length; j++)
 				if (image[i][j])
-					backBufferGraphics.drawRect(positionX + i * 2, positionY
-							+ j * 2, 1, 1);
+					backBufferGraphics.drawRect(
+							positionX + i * 2,
+							positionY + j * 2,
+							1, 1);
 	}
-
 	/**
 	 * Draws regular text at an exact position, left aligned.
 	 *
@@ -787,8 +817,8 @@ public final class DrawManager {
 		backBufferGraphics.setColor(Color.GREEN);
 		backBufferGraphics.drawString("ACHIEVEMENT UNLOCKED", boxX + 34,
 				boxY + 16);
-		drawSprite(achievement.getSpriteType(), boxX + 8, boxY + 23,
-				Color.YELLOW);
+		drawSprite(achievement.getSpriteType(),
+				boxX + 8, boxY + 20, achievement.getIconColor());
 		backBufferGraphics.setColor(Color.WHITE);
 		backBufferGraphics.drawString(achievement.getName(), boxX + 34,
 				boxY + 35);
@@ -806,19 +836,40 @@ public final class DrawManager {
 		int contentX = iconX + 40;
 		int nameY = screen.getHeight() / 2;
 		String status = achievement.isUnlocked() ? "UNLOCKED" : "LOCKED";
-
-		drawSprite(achievement.getSpriteType(), iconX, nameY - 20,
-				achievement.isUnlocked() ? Color.YELLOW : Color.DARK_GRAY);
+		drawSprite(achievement.getSpriteType(),
+				iconX, nameY - 20,
+				achievement.isUnlocked() ? achievement.getIconColor() : Color.DARK_GRAY);
 		backBufferGraphics.setFont(fontRegular);
 		backBufferGraphics.setColor(achievement.isUnlocked() ? Color.WHITE
 				: Color.GRAY);
 		backBufferGraphics.drawString(achievement.getName() + " - " + status,
 				contentX, nameY);
 		backBufferGraphics.setColor(Color.GRAY);
-		backBufferGraphics.drawString("Unlock: defeat "
-				+ achievement.getRequiredEnemyKills() + " enemies.", contentX,
+		backBufferGraphics.drawString(Core.getAchievementManager()
+				.getRequirementText(achievement), contentX,
 				nameY + fontRegularMetrics.getHeight() * 2);
 	}
+	/**Draw smaller sprite in achievement
+	 *
+	 */
+	public void drawSmallSprite(final SpriteType spriteType,
+								final int positionX, final int positionY, final Color color) {
+
+		boolean[][] image = spriteMap.get(spriteType);
+		backBufferGraphics.setColor(color);
+
+		for (int x = 0; x < image.length; x++) {
+			for (int y = 0; y < image[x].length; y++) {
+				if (image[x][y]) {
+					backBufferGraphics.fillRect(
+							positionX + x,
+							positionY + y,
+							1, 1);
+				}
+			}
+		}
+	}
+
 
 	/**
 	 * Draws the title of a screen reached from the main menu, in the same
