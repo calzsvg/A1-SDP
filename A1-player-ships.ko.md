@@ -79,15 +79,16 @@ A1 팀 · Player & Enemy Ship Variety · 관련 요구사항: DR-2 (플레이어
 
 Fast Move와 Two-Way Shot은 `src/entity/Ship.java`의 `ShipType` 값으로 구현되어 있습니다. Fast Attack과 Big Bullet은 아직 확정되지 않았습니다. Standard 열에는 비교용으로 현재 기체의 값을 적었습니다.
 
-| 스탯 | Standard (현재) | Fast Attack | Big Bullet | Fast Move | Two-Way Shot |
+| 스탯 | Standard (현재) | Fast Attack (예정) | Big Bullet (예정) | Fast Move | Two-Way Shot |
 |---|---|---|---|---|---|
-| 이동 속도 (`speed`, 프레임당 px) | 2 | TBD | TBD | 4 | 1 |
-| 발사 간격 (`shootingInterval`, ms) | 750 | TBD | TBD | 750 | 1000 |
-| 탄속 (`BULLET_SPEED`, 프레임당 px, 음수 = 위쪽) | -6 | TBD | TBD | -6 | -6 |
-| 1회 발사 탄 수 | 1 | TBD | TBD | 1 | 2 |
-| 최대 체력 (피격 횟수 기준) | 1 | TBD | TBD | 1 | 1 |
-| 이동 거리 (60 FPS 기준, 초당 px) | 120 | TBD | TBD | 240 | 60 |
-| 초당 발사 탄 수 | 1.33 | TBD | TBD | 1.33 | 2.00 |
+| 이동 속도 (`speed`, 프레임당 px) | 2 | 2 | 2 | 4 | 1 |
+| 발사 간격 (`shootingInterval`, ms) | 750 | 375 | 1000 | 750 | 1000 |
+| 탄속 (`BULLET_SPEED`, 프레임당 px, 음수 = 위쪽) | -6 | -6 | -6 | -6 | -6 |
+| 1회 발사 탄 수 | 1 | 1 | 1 | 1 | 2 |
+| 탄환 크기 (스프라이트 픽셀, 게임 화면 px) | 3x5 (6x10 px) | 3x5 (6x10 px) | 7x7 (14x14 px) | 3x5 (6x10 px) | 3x5 (6x10 px) |
+| 최대 체력 (피격 횟수 기준) | 1 | 1 | 1 | 1 | 1 |
+| 이동 거리 (60 FPS 기준, 초당 px) | 120 | 120 | 120 | 240 | 60 |
+| 초당 발사 탄 수 | 1.33 | 2.67 | 1.00 | 1.33 | 2.00 |
 
 마지막 두 행은 위의 값에서 계산한 비교용 값입니다(프레임당 px x 60 FPS, 1회 발사 탄 수 / 발사 간격). Two-Way Shot은 Standard보다 초당 1.5배 많은 탄을 쏘기 때문에, 이를 상쇄하려고 이동 속도를 Standard의 절반으로, 발사 간격을 1000 ms로 늘렸습니다.
 
