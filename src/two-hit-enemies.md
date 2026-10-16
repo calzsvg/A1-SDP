@@ -8,13 +8,23 @@ The last argument of `SETTINGS_LEVEL_6` in `engine/Core.java` configures the cou
 `new GameSettings(7, 7, 10, 1000, 1)`. Zero disables the variation; the count must
 leave at least one ordinary enemy. Other stages default to zero.
 
+One elite is intentional for the initial Stage 6 balance test, following KFC's
+suggested starting count. Increase it after gameplay testing; it is not a final
+balance decision.
+
+The diagonal and two-hit settings are independent. Existing four-argument,
+five-argument boolean, and five-argument count constructors remain supported.
+Use `new GameSettings(7, 7, 10, 1000, true, 2)` to enable diagonal movement
+and two elites together, for example when configuring the future Stage 9.
+
 This uses the current seven-stage configuration. When the ten-stage progression
 is integrated, connect the count to its Stage 6 settings. No boss behaviour or
-optional Stage 9 combination is included.
+Stage 9 placement is included; the settings now support the future combination.
 
 ## Validation
 
-Java 17 compilation with `-Xlint:all` and 41 standalone regression checks passed.
+Java 17 compilation with `-Xlint:all` and standalone regression checks cover
+both variations separately and together, including shared diagonal movement.
 Stage 6 was also checked manually by the feature requester. Full item interaction
 and difficulty testing remains to be done.
 

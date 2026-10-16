@@ -49,6 +49,8 @@ public final class TwoHitEnemyTest {
             Field field = Core.class.getDeclaredField("SETTINGS_LEVEL_" + level);
             field.setAccessible(true);
             GameSettings settings = (GameSettings) field.get(null);
+            check(settings.isDiagonalMovement() == (level == 3),
+                "Diagonal stage placement " + level);
             EnemyShipFormation formation = new EnemyShipFormation(settings);
             int elites = 0;
             int ordinary = 0;
@@ -64,6 +66,26 @@ public final class TwoHitEnemyTest {
         check(!strongHit.takeDamage(0), "Zero damage must not kill");
         check(strongHit.takeDamage(2), "Damage amount must be respected");
         check(!strongHit.takeDamage(1), "Lethal hit cannot be repeated");
+
+        GameSettings combined = new GameSettings(3, 2, 10, 1000, true, 2);
+        check(combined.isDiagonalMovement() && combined.getTwoHitEnemyCount() == 2,
+            "Both settings can be enabled together");
+        EnemyShipFormation combinedFormation = new EnemyShipFormation(combined);
+        combinedFormation.attach(new screen.Screen(448, 520, 60));
+        java.util.Map<EnemyShip, int[]> positions = new java.util.HashMap<>();
+        int combinedElites = 0;
+        for (EnemyShip enemy : combinedFormation) {
+            positions.put(enemy, new int[] {enemy.getPositionX(), enemy.getPositionY()});
+            if (enemy.getHealth() == 2) combinedElites++;
+        }
+        check(combinedElites == 2, "Combined formation has two elites");
+        for (int frame = 0; frame < 20; frame++) combinedFormation.update();
+        for (EnemyShip enemy : combinedFormation) {
+            int[] before = positions.get(enemy);
+            check(enemy.getPositionX() - before[0] == 8
+                && enemy.getPositionY() - before[1] == 4,
+                "Combined formation moves diagonally with spacing preserved");
+        }
 
         GameScreen screen = new GameScreen(new GameState(6, 0, 3, 0, 0),
             new GameSettings(3, 2, 10, 1000, 1), false, 448, 520, 60);
