@@ -236,9 +236,9 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			boolean isAtLeftSide = positionX <= SIDE_MARGIN;
 			boolean isAtHorizontalAltitude = positionY % DESCENT_DISTANCE == 0;
 
-				if (this.diagonalMovement) {
-					advanceDiagonal(isAtLeftSide, isAtRightSide, isAtBottom);
-				} else if (currentDirection == Direction.DOWN) {
+			if (this.diagonalMovement) {
+				advanceDiagonal(isAtLeftSide, isAtRightSide, isAtBottom);
+			} else if (currentDirection == Direction.DOWN) {
 				if (isAtHorizontalAltitude)
 					if (previousDirection == Direction.RIGHT) {
 						currentDirection = Direction.LEFT;
