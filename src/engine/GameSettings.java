@@ -16,6 +16,8 @@ public class GameSettings {
 	private int baseSpeed;
 	/** Frequency of enemy shootings, +/- 30%. */
 	private int shootingFrecuency;
+	/** Number of two-hit enemies in this stage's formation. */
+	private int twoHitEnemyCount;
 
 	/**
 	 * Constructor.
@@ -31,6 +33,19 @@ public class GameSettings {
 	 */
 	public GameSettings(final int formationWidth, final int formationHeight,
 			final int baseSpeed, final int shootingFrecuency) {
+		this(formationWidth, formationHeight, baseSpeed, shootingFrecuency, 0);
+	}
+
+	/** Creates stage settings with a small, configurable two-hit enemy count. */
+	public GameSettings(final int formationWidth, final int formationHeight,
+			final int baseSpeed, final int shootingFrecuency,
+			final int twoHitEnemyCount) {
+		if (twoHitEnemyCount < 0
+				|| (twoHitEnemyCount > 0
+						&& twoHitEnemyCount >= formationWidth * formationHeight))
+			throw new IllegalArgumentException(
+					"Two-hit enemies must leave at least one ordinary enemy");
+		this.twoHitEnemyCount = twoHitEnemyCount;
 		this.formationWidth = formationWidth;
 		this.formationHeight = formationHeight;
 		this.baseSpeed = baseSpeed;
@@ -42,6 +57,11 @@ public class GameSettings {
 	 */
 	public final int getFormationWidth() {
 		return formationWidth;
+	}
+
+	/** @return Number of two-hit enemies to spawn. */
+	public final int getTwoHitEnemyCount() {
+		return this.twoHitEnemyCount;
 	}
 
 	/**
