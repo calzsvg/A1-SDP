@@ -493,6 +493,9 @@ public class GameScreen extends Screen {
 					this.midBoss.update();
 					this.midBoss.moveBoss(this.width, this.height, this.gameSettings);
 				}
+				this.midBoss.setTarget(
+						this.ship.getPositionX() + this.ship.getWidth() / 2,
+						this.ship.getPositionY() + this.ship.getHeight() / 2);
 				this.midBoss.shoot(this.bullets, this.gameSettings);
 			} else {
 				if (!this.items.enemiesFrozen())
@@ -791,10 +794,12 @@ public class GameScreen extends Screen {
 						this.enemyShipSpecial.getPositionX(),
 						this.enemyShipSpecial.getPositionY());
 
-			if (this.midBoss != null)
-				drawManager.drawEntity((Entity) this.midBoss,
-						this.midBoss.getPositionX(), this.midBoss.getPositionY());
-			else
+			if (this.midBoss != null) {
+				if (this.midBoss.isVisible())
+					drawManager.drawEntity((Entity) this.midBoss,
+							this.midBoss.getPositionX(), this.midBoss.getPositionY());
+				this.midBoss.drawWarnings(drawManager);
+			} else
 				enemyShipFormation.draw();
 
 			// Hit sparkles: drawn while the shake offset is applied so they move
@@ -927,7 +932,9 @@ public class GameScreen extends Screen {
 		for (Bullet bullet : this.bullets) {
 			bullet.update();
 			if (bullet.getPositionY() < SEPARATION_LINE_HEIGHT
-					|| bullet.getPositionY() > this.height)
+					|| bullet.getPositionY() > this.height
+					|| bullet.getPositionX() + bullet.getWidth() < 0
+					|| bullet.getPositionX() > this.width)
 				recyclable.add(bullet);
 		}
 		this.bullets.removeAll(recyclable);
