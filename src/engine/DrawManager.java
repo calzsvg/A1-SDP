@@ -121,6 +121,11 @@ public final class DrawManager {
 		InfinityVoid,
 		/** First Boss Kill achievement icon. */
 		BossKill,
+		/** Bouncing boss animation frames. */
+		MidBoss1,
+		MidBoss2,
+		FinalBoss1,
+		FinalBoss2,
 		/** Fast Attack skin A1 (Arrow). */
 		ShipSkinA1,
 		/** Fast Attack skin A2 (Twin Fang). */
@@ -186,7 +191,11 @@ public final class DrawManager {
 			spriteMap.put(SpriteType.FleetMaster, new boolean[23][23]);
 			spriteMap.put(SpriteType.Weakestship, new boolean[11][11]);
 			spriteMap.put(SpriteType.InfinityVoid, new boolean[11][11]);
-			spriteMap.put(SpriteType.BossKill, new boolean[11][11]);
+            spriteMap.put(SpriteType.BossKill, new boolean[11][11]);
+			spriteMap.put(SpriteType.MidBoss1, new boolean[16][10]);
+			spriteMap.put(SpriteType.MidBoss2, new boolean[16][10]);
+			spriteMap.put(SpriteType.FinalBoss1, new boolean[24][16]);
+			spriteMap.put(SpriteType.FinalBoss2, new boolean[24][16]);
 
 			// Player ship skins (A1)
 			spriteMap.put(SpriteType.ShipSkinA1, new boolean[13][8]);
@@ -1677,13 +1686,19 @@ public final class DrawManager {
 	public void drawMenuRow(final Screen screen, final String string,
 							final int height, final boolean selected,
 							final boolean enabled) {
-		if (selected)
+		if (selected) {
+			String text = "> " + string + " <";
 			backBufferGraphics.setColor(Color.GREEN);
-		else if (!enabled)
-			backBufferGraphics.setColor(Color.DARK_GRAY);
-		else
-			backBufferGraphics.setColor(Color.WHITE);
-		drawCenteredRegularString(screen, string, height);
+			backBufferGraphics.setFont(fontSelected);
+			backBufferGraphics.drawString(text,
+					(screen.getWidth()
+							- fontSelectedMetrics.stringWidth(text)) / 2,
+					height);
+		} else {
+			backBufferGraphics.setColor(
+					enabled ? Color.WHITE : Color.DARK_GRAY);
+			drawCenteredRegularString(screen, string, height);
+		}
 	}
 
 	/**
