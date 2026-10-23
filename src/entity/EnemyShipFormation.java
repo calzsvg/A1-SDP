@@ -17,9 +17,9 @@ import engine.GameSettings;
 
 /**
  * Groups enemy ships into a formation that moves together.
- * 
+ *
  * @author <a href="mailto:RobertoIA1987@gmail.com">Roberto Izquierdo Amo</a>
- * 
+ *
  */
 public class EnemyShipFormation implements Iterable<EnemyShip> {
 
@@ -122,7 +122,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Constructor, sets the initial conditions.
-	 * 
+	 *
 	 * @param gameSettings
 	 *            Current game settings.
 	 */
@@ -177,7 +177,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 				int positionIndex = i * this.nShipsWide
 						+ this.enemyShips.indexOf(column);
 				int health = elitePositions.contains(positionIndex) ? 2 : 1;
-				column.add(new EnemyShip((SEPARATION_DISTANCE 
+				column.add(new EnemyShip((SEPARATION_DISTANCE
 						* this.enemyShips.indexOf(column))
 								+ positionX, (SEPARATION_DISTANCE * i)
 								+ positionY, spriteType, health));
@@ -199,7 +199,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Associates the formation to a given screen.
-	 * 
+	 *
 	 * @param newScreen
 	 *            Screen to attach.
 	 */
@@ -226,7 +226,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 					shootingVariance);
 			this.shootingCooldown.reset();
 		}
-		
+
 		cleanUp();
 
 		int movementX = 0;
@@ -236,7 +236,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		this.movementSpeed = (int) (Math.pow(remainingProportion, 2)
 				* this.baseSpeed);
 		this.movementSpeed += MINIMUM_SPEED;
-		
+
 		movementInterval++;
 		if (movementInterval >= this.movementSpeed) {
 			movementInterval = 0;
@@ -284,7 +284,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 			if (this.diagonalMovement) {
 				movementX = this.diagonalStepX;
 				movementY = this.nextDiagonalStepY(isAtBottom);
-			} 
+			}
 			else if (currentDirection == Direction.RIGHT)
 				movementX = X_SPEED;
 			else if (currentDirection == Direction.LEFT)
@@ -322,7 +322,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 * moves sideways and up and down at the same time. Touching a side
 	 * reverses the horizontal direction and makes the formation sink a bit,
 	 * like the classic movement does.
-	 * 
+	 *
 	 * @param isAtLeftSide
 	 *            True if the formation touches the left margin.
 	 * @param isAtRightSide
@@ -348,7 +348,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 	 * the range and DIAGONAL_RANGE pixels below it, plus the sinking after
 	 * touching a side. The formation never moves down once it is at the
 	 * lower boundary.
-	 * 
+	 *
 	 * @param isAtBottom
 	 *            True if the formation reached the lower boundary.
 	 * @return Pixels to move down, negative to move up.
@@ -369,7 +369,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 		}
 		return stepY;
 	}
-	
+
 	/**
 	 * Removes destroyed ships from the formation. Used by the game over
 	 * sequence, while the formation is no longer updated.
@@ -446,7 +446,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 		int leftMostPoint = 0;
 		int rightMostPoint = 0;
-		
+
 		for (List<EnemyShip> column : this.enemyShips) {
 			if (!column.isEmpty()) {
 				if (leftMostPoint == 0)
@@ -464,7 +464,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Shoots a bullet downwards.
-	 * 
+	 *
 	 * @param bullets
 	 *            Bullets set to add the bullet being shot.
 	 */
@@ -482,7 +482,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Destroys a ship.
-	 * 
+	 *
 	 * @param destroyedShip
 	 *            Ship to be destroyed.
 	 */
@@ -523,7 +523,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Gets the ship on a given column that will be in charge of shooting.
-	 * 
+	 *
 	 * @param column
 	 *            Column to search.
 	 * @return New shooter ship.
@@ -542,7 +542,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Returns an iterator over the ships in the formation.
-	 * 
+	 *
 	 * @return Iterator over the enemy ships.
 	 */
 	@Override
@@ -558,7 +558,7 @@ public class EnemyShipFormation implements Iterable<EnemyShip> {
 
 	/**
 	 * Checks if there are any ships remaining.
-	 * 
+	 *
 	 * @return True when all ships have been destroyed.
 	 */
 	public final boolean isEmpty() {
