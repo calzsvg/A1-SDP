@@ -88,7 +88,7 @@ public class FinalBoss extends Entity implements Boss {
 	private static final int RAIN_START_Y = 45;
 	private static final int RAIN_BULLET_SPEED = 4;
 	private static final int RAIN_WARNING_TIME = 800;
-	private static final int RAIN_MARKER_SIZE = 8;
+	private static final int RAIN_MARKER_SIZE = 12;
 	/* X positions of the pending rain drops, empty when no rain is coming */
 	private final List<Integer> rainTargets = new ArrayList<Integer>();
 	private final Cooldown rainWarningCooldown = Core.getCooldown(RAIN_WARNING_TIME);
@@ -113,7 +113,9 @@ public class FinalBoss extends Entity implements Boss {
 
 	/* Warnings blink so they stand out from bullets and ships */
 	private static final int WARNING_BLINK_INTERVAL = 100;
-	private static final Color WARNING_COLOR = Color.RED;
+	/* A light red, thick outline is easier to notice on the black background */
+	private static final Color WARNING_COLOR = new Color(255, 96, 96);
+	private static final int WARNING_THICKNESS = 2;
 
     /**
 	 * Constructor for FinalBoss Ship.
@@ -540,12 +542,30 @@ public class FinalBoss extends Entity implements Boss {
 			return;
 		}
 		if (this.teleporting) {
-			drawManager.drawBox(this.teleportX, this.teleportY,
-					this.width, this.height, WARNING_COLOR);
+			drawWarningBox(drawManager, this.teleportX, this.teleportY,
+					this.width, this.height);
 		}
 		for (int x : this.rainTargets) {
-			drawManager.drawBox(x - RAIN_MARKER_SIZE / 2, RAIN_START_Y,
-					RAIN_MARKER_SIZE, RAIN_MARKER_SIZE, WARNING_COLOR);
+			drawWarningBox(drawManager, x - RAIN_MARKER_SIZE / 2, RAIN_START_Y,
+					RAIN_MARKER_SIZE, RAIN_MARKER_SIZE);
+		}
+	}
+
+	/**
+	 * Draws a warning outline WARNING_THICKNESS pixels thick. Each extra
+	 * outline is one pixel further in, so the outer size stays the same.
+	 *
+	 * @param drawManager Manager used to draw the warning.
+	 * @param x           Left side of the outline.
+	 * @param y           Top side of the outline.
+	 * @param width       Width of the outline.
+	 * @param height      Height of the outline.
+	 */
+	private static void drawWarningBox(final DrawManager drawManager,
+			final int x, final int y, final int width, final int height) {
+		for (int i = 0; i < WARNING_THICKNESS; i++) {
+			drawManager.drawBox(x + i, y + i, width - 2 * i, height - 2 * i,
+					WARNING_COLOR);
 		}
 	}
 
