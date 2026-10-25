@@ -1,7 +1,7 @@
 ﻿# Two-hit enemies
 
-Stages 6 and 9 assign two-hit health to 20% of the formation, rounded to the
-nearest whole enemy: 4 of 18 in Stage 6 and 7 of 35 in Stage 9.
+Stages 6 and 9 assign two-hit health to 30% of the formation, rounded to the
+nearest whole enemy: 5 of 18 in Stage 6 and 11 of 35 in Stage 9.
 Other stages default to zero. Counts are configured in engine/Core.java.
 
 All formation positions are shuffled and the configured count is selected

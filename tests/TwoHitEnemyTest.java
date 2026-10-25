@@ -58,7 +58,7 @@ public final class TwoHitEnemyTest {
                 if (enemy.getHealth() == 2) elites++;
                 else ordinary++;
             }
-            check(elites == (level == 6 ? 4 : level == 9 ? 7 : 0),
+            check(elites == (level == 6 ? 5 : level == 9 ? 11 : 0),
                 "Stage placement " + level);
             check(ordinary + elites == settings.getFormationWidth()
                 * settings.getFormationHeight(), "Formation size " + level);
@@ -81,7 +81,7 @@ public final class TwoHitEnemyTest {
                             < 100 + 40 * (settings.getFormationHeight() - 1);
                     }
                 }
-                check(elites == (level == 6 ? 4 : 7), "Exact random count " + level);
+                check(elites == (level == 6 ? 5 : 11), "Exact random count " + level);
                 layouts.add(layout.toString());
             }
             check(layouts.size() > 1, "Layouts vary across starts " + level);
